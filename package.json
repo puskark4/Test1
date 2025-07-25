@@ -1,0 +1,49 @@
+{
+  "name": "isthisspam-extension",
+  "version": "1.0.0",
+  "description": "AI-powered Chrome extension to detect spam, scams, and phishing emails in Gmail and Outlook",
+  "main": "background.js",
+  "scripts": {
+    "build": "echo 'Building extension...' && npm run icons",
+    "icons": "echo 'Generating icons from SVG...'",
+    "test": "echo 'Running tests...'",
+    "package": "zip -r isthisspam-extension.zip . -x '*.git*' 'node_modules/*' 'package*.json' '.DS_Store'",
+    "dev": "echo 'Starting development mode...'",
+    "lint": "echo 'Linting code...'",
+    "format": "echo 'Formatting code...'"
+  },
+  "keywords": [
+    "chrome-extension",
+    "email-security",
+    "spam-detection",
+    "phishing-protection",
+    "ai",
+    "machine-learning",
+    "gmail",
+    "outlook",
+    "cybersecurity"
+  ],
+  "author": "IsThisSpam.org",
+  "license": "MIT",
+  "homepage": "https://isthisspam.org",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/isthisspam/extension.git"
+  },
+  "bugs": {
+    "url": "https://github.com/isthisspam/extension/issues"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "prettier": "^2.0.0",
+    "web-ext": "^7.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "strict_min_version": "91.0"
+    }
+  }
+}

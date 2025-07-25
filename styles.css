@@ -1,0 +1,492 @@
+/* IsThisSpam Extension Styles */
+
+/* Threat Indicators */
+.isthisspam-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 4px 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  max-width: 120px;
+  z-index: 999;
+}
+
+.isthisspam-indicator:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.isthisspam-indicator.safe {
+  background: rgba(40, 167, 69, 0.1);
+  border-color: rgba(40, 167, 69, 0.3);
+  color: #28a745;
+}
+
+.isthisspam-indicator.low {
+  background: rgba(255, 193, 7, 0.1);
+  border-color: rgba(255, 193, 7, 0.3);
+  color: #ffc107;
+}
+
+.isthisspam-indicator.medium {
+  background: rgba(253, 126, 20, 0.1);
+  border-color: rgba(253, 126, 20, 0.3);
+  color: #fd7e14;
+}
+
+.isthisspam-indicator.high {
+  background: rgba(220, 53, 69, 0.1);
+  border-color: rgba(220, 53, 69, 0.3);
+  color: #dc3545;
+}
+
+.isthisspam-indicator.critical {
+  background: rgba(220, 53, 69, 0.2);
+  border-color: rgba(220, 53, 69, 0.5);
+  color: #dc3545;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2); }
+  50% { box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4); }
+  100% { box-shadow: 0 2px 4px rgba(220, 53, 69, 0.2); }
+}
+
+.isthisspam-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.isthisspam-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Gmail-specific positioning */
+.isthisspam-indicator.gmail-row {
+  position: absolute;
+  right: 60px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.isthisspam-indicator.gmail-open {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 10000;
+}
+
+/* Outlook-specific positioning */
+.isthisspam-indicator.outlook-row {
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.isthisspam-indicator.outlook-open {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  z-index: 10000;
+}
+
+/* Tooltip */
+.isthisspam-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-bottom: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s ease;
+  z-index: 10001;
+}
+
+.isthisspam-indicator:hover .isthisspam-tooltip {
+  opacity: 1;
+  visibility: visible;
+}
+
+.isthisspam-tooltip-content {
+  background: #333;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  max-width: 300px;
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.isthisspam-tooltip-content::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: #333;
+}
+
+.isthisspam-tooltip-content strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #fff;
+}
+
+.isthisspam-tooltip-content p {
+  margin: 6px 0;
+}
+
+.isthisspam-tooltip-content ul {
+  margin: 6px 0 6px 16px;
+  padding: 0;
+}
+
+.isthisspam-tooltip-content li {
+  margin: 2px 0;
+}
+
+/* Modal */
+.isthisspam-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10002;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.isthisspam-modal-content {
+  background: white;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.isthisspam-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.isthisspam-modal-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.isthisspam-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.isthisspam-close:hover {
+  background: #f8f9fa;
+  color: #333;
+}
+
+.isthisspam-modal-body {
+  padding: 20px 24px 24px;
+}
+
+.isthisspam-modal-body > div {
+  margin-bottom: 16px;
+}
+
+.isthisspam-modal-body > div:last-child {
+  margin-bottom: 0;
+}
+
+.isthisspam-modal-body h4 {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.isthisspam-modal-body p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #666;
+}
+
+.isthisspam-modal-body ul {
+  margin: 8px 0 0 16px;
+  padding: 0;
+}
+
+.isthisspam-modal-body li {
+  font-size: 14px;
+  line-height: 1.4;
+  color: #666;
+  margin: 4px 0;
+}
+
+/* Threat level styling in modal */
+.threat-level {
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.threat-level.safe {
+  background: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+  border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.threat-level.low {
+  background: rgba(255, 193, 7, 0.1);
+  color: #856404;
+  border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.threat-level.medium {
+  background: rgba(253, 126, 20, 0.1);
+  color: #e55100;
+  border: 1px solid rgba(253, 126, 20, 0.3);
+}
+
+.threat-level.high {
+  background: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+  border: 1px solid rgba(220, 53, 69, 0.3);
+}
+
+.threat-level.critical {
+  background: rgba(220, 53, 69, 0.2);
+  color: #dc3545;
+  border: 1px solid rgba(220, 53, 69, 0.5);
+}
+
+.threat-type,
+.confidence {
+  padding: 8px 12px;
+  background: #f8f9fa;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.explanation {
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border-left: 4px solid #007bff;
+}
+
+.red-flags {
+  padding: 12px;
+  background: rgba(220, 53, 69, 0.05);
+  border-radius: 8px;
+  border-left: 4px solid #dc3545;
+}
+
+.red-flags ul {
+  margin: 8px 0 0 0;
+}
+
+.red-flags li {
+  color: #dc3545;
+  font-weight: 500;
+}
+
+.recommendation {
+  padding: 12px;
+  background: rgba(23, 162, 184, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid #17a2b8;
+}
+
+/* Loading states */
+.isthisspam-loading {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.isthisspam-loading::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ddd;
+  border-top-color: #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .isthisspam-modal-content {
+    width: 95%;
+    margin: 10px;
+  }
+  
+  .isthisspam-tooltip-content {
+    max-width: 250px;
+  }
+  
+  .isthisspam-indicator {
+    font-size: 11px;
+    padding: 3px 6px;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .isthisspam-indicator {
+    border-width: 2px;
+  }
+  
+  .isthisspam-tooltip-content {
+    background: #000;
+    border: 2px solid #fff;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .isthisspam-indicator,
+  .isthisspam-modal,
+  .isthisspam-modal-content,
+  .isthisspam-tooltip {
+    transition: none;
+    animation: none;
+  }
+}
+
+/* Dark mode support for email clients */
+@media (prefers-color-scheme: dark) {
+  .isthisspam-indicator {
+    background: rgba(33, 37, 41, 0.95);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .isthisspam-modal-content {
+    background: #2d3748;
+    color: #e2e8f0;
+  }
+  
+  .isthisspam-modal-header {
+    border-bottom-color: #4a5568;
+  }
+  
+  .isthisspam-modal-header h3 {
+    color: #e2e8f0;
+  }
+  
+  .isthisspam-close {
+    color: #a0aec0;
+  }
+  
+  .isthisspam-close:hover {
+    background: #4a5568;
+    color: #e2e8f0;
+  }
+  
+  .isthisspam-modal-body p {
+    color: #cbd5e0;
+  }
+  
+  .threat-type,
+  .confidence {
+    background: #4a5568;
+    color: #e2e8f0;
+  }
+  
+  .explanation {
+    background: #4a5568;
+    border-left-color: #63b3ed;
+  }
+  
+  .red-flags {
+    background: rgba(245, 101, 101, 0.1);
+  }
+  
+  .recommendation {
+    background: rgba(56, 178, 172, 0.1);
+  }
+}
+
+/* Accessibility improvements */
+.isthisspam-indicator:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+.isthisspam-close:focus {
+  outline: 2px solid #007bff;
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .isthisspam-indicator,
+  .isthisspam-modal,
+  .isthisspam-tooltip {
+    display: none !important;
+  }
+}
